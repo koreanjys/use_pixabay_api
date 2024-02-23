@@ -1,3 +1,5 @@
+# From Pixabay API get image data to Mysql
+
 import env
 import requests
 import json
@@ -34,7 +36,8 @@ with Session(engine_url) as session:
             imageURL=dat["webformatURL"],
             tags=dat["tags"],
             user=dat["user"],
-            type=dat["type"]
+            type=dat["type"],
+            keyword=q
         )
         session.add(inst)
         try:
