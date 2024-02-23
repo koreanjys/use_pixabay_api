@@ -4,6 +4,7 @@ import requests
 import os
 import time
 import env
+from tqdm import tqdm
 
 # 데이터베이스 세팅
 database_connection_string = env.DATABASE_URL
@@ -22,16 +23,18 @@ with Session(engine_url) as session:
     image_data = session.exec(statement).all()
     
 # 이미지 다운로드
+dump_count = 0
 dir_name = "./images/" + keyword
 if not os.path.exists(dir_name):
     os.makedirs(dir_name)
 
-for inst in image_data:
+for inst in tqdm(image_data):
     if os.path.exists(dir_name+"/"+f"{inst.image_id}.jpg"):
+        dump_count += 1
         continue
     request_image = requests.get(inst.imageURL)
     time.sleep(0.5)
     file_path = os.path.join(dir_name, f"{inst.image_id}.jpg")
     with open(file_path, "wb") as f:
         f.write(request_image.content)
-print("다운로드 완료")
+print("다운로드 완료, 이미 있는 이미지:  ", dump_count)
