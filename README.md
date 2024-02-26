@@ -1,18 +1,21 @@
 # use_pixabay_api
-pixabay 이미지 데이터 -> MySQL에 url 등 데이터 저장 -> MySQL에 저장된 데이터의 url에 접근하여 urlib 으로 다운로드
+Pixabay API의 이미지 데이터를 가져오고, 이미지를 다운로드 하는 어플리케이션
+## 환경설정
+- python 버전 3.8.9
+- 필요 라이브러리는 requirements.txt
+- mysql은 8버전 이상
+- pixabay api key 필요 [pixabay_api_docs](https://pixabay.com/api/docs/)
+- 환경변수는 프로젝트 디렉터리에 **.env** 파일 생성
+- .env파일 예시
+```
+API_KEY="***-***"
+DATABASE_URL="mysql+pymysql://{user}:{password}@127.0.0.1:3306/{db_name}"
+END_POINT="https://pixabay.com/api/"
+```
 
-<h2 id="api_rate_limit">Rate Limit</h2>
-<p>By default, you can make up to 100 requests per minute. Requests are associated with the API key, and not with your IP address. The response headers tell you everything you need to know about your current rate limit status:</p>
-<table class="api_properties">
-<tbody><tr><th>Header name</th><th>Description</th></tr>
-<tr><td>X-RateLimit-Limit</td><td>The maximum number of requests that the consumer is permitted to make in 30 minutes.</td></tr>
-<tr><td>X-RateLimit-Remaining</td><td>The number of requests remaining in the current rate limit window.</td></tr>
-<tr><td>X-RateLimit-Reset</td><td>The remaining time in seconds after which the current rate limit window resets.</td></tr>
-</tbody></table>
-<p>
-To keep the Pixabay API fast for everyone, requests must be cached for 24 hours. Also, the API is made for real human requests; do not send lots of automated queries. Systematic mass downloads are not allowed.
-If needed, we can increase this limit at any time - given that you've implemented the API properly.
-</p>
+## 실행파일 설명
+- **get_image_data.py** : 실행 후 "keyword"를 입력받음 -> 해당 keyword 관련 이미지 데이터를 최대 1000개 Mysql DB에 저장.
+- **download_images.py** : 실행 후 DB에 저장된 "keyword" 입력(카테고리 입력은 선택) -> images 디렉터리 안에 keyword로 생성된 폴더 안에 이미지 저장
 
 ## `1. request GET 쿼리`
 <br>
@@ -162,6 +165,8 @@ Indent JSON output. This option should not be used in production.
 </tr>
 </tbody></table>
 
+<br>
+
 ## 2. `response 예제`
 <br>
 <p>
@@ -205,3 +210,4 @@ Replace with '_960' to get the image in a maximum dimension of 960 x 720 px.
 <tr><td>imageURL</td><td>URL to the original image (imageWidth x imageHeight).</td></tr>
 <tr><td>vectorURL</td><td>URL to a vector resource if available, else omitted.</td></tr>
 </tbody></table>
+

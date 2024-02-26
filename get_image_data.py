@@ -9,15 +9,35 @@ from sqlmodel import SQLModel, Session, create_engine
 from tqdm import tqdm
 
 # 파라미터 입력
-q = input("검색어 입력:  ")
-per_page = 200  # 3~200
-page = 1  # default=1
+q = input("검색할 keyword 입력:  ")
+per_page: int = 200  # 3~200
+page: int = 1  # default=1
+image_type: str = "all"
+category: str = None
+"""
+Categoris
+Accepted values: backgrounds, fashion, nature, science, education,
+                 feelings, health, people, religion, places, animals,
+                 industry, computer, food, sports, transportation, travel, buildings, business, music
+"""
+colors: str = None
+"""
+Colors
+Filter images by color properties. A comma separated list of values may be used to select multiple properties.
+Accepted values: "grayscale", "transparent", "red", "orange", "yellow", "green", "turquoise", "blue", "lilac", "pink", "white", "gray", "black", "brown"
+"""
+order: str = "latest"
+
+
 params = {
     "q": q,
     "page": page,
     "per_page": per_page,
     "key": env.API_KEY,
-    "lang": "ko"
+    "lang": "ko",
+    "category": category,
+    "colors": colors,
+    "order": order
 }
 image_data = []  # ResponseData 모델의 인스턴스들을 받아올 리스트
 

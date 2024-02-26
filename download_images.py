@@ -12,7 +12,7 @@ engine_url = create_engine(database_connection_string, echo=True)
 
 # DB 이미지데이터를 가져오기
 with Session(engine_url) as session:
-    keyword = input("키워드 입력:  ")  # str
+    keyword = input("저장된 keyword 입력:  ")  # str
     istags = input("태그도 입력 하시겠습니까?(y or n):  ")
     if istags == "y":
         tags = input("태그 입력(여러개 입력시 ','로 구분):  ").strip().split(",")  # list
@@ -21,7 +21,7 @@ with Session(engine_url) as session:
         conditions = [ResponseData.tags.like(f"%{tag}%") for tag in tags]
         statement = statement.where(or_(*conditions))
     image_data = session.exec(statement).all()
-    
+
 # 이미지 다운로드
 dump_count = 0
 dir_name = "./images/" + keyword
@@ -37,4 +37,4 @@ for inst in tqdm(image_data):
     file_path = os.path.join(dir_name, f"{inst.image_id}.jpg")
     with open(file_path, "wb") as f:
         f.write(request_image.content)
-print("다운로드 완료, 이미 있는 이미지:  ", dump_count)
+print("다운로드 완료, 이미 있는 이미지 개수:  ", dump_count)
