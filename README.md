@@ -51,7 +51,7 @@ END_POINT="https://pixabay.com/api/"
 # keyword 입력 예시(나무, 나무+땅, 나무+물+돌)
 
 $ python get_image_data.py
-검색할 keyword 입력: {입력}
+검색할 keyword 입력: 나무+땅
 ```
 
 - 플로우 차트
@@ -63,7 +63,7 @@ $ python get_image_data.py
 
 ```
 $ python download_images.py
-저장된 keyword 입력: {입력}
+저장된 keyword 입력: 나무+땅
 태그도 입력 하시겠습니까?(y or n):
 ```
 
