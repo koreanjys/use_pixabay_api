@@ -14,20 +14,18 @@ per_page: int = 200  # 3~200
 page: int = 1  # default=1
 image_type: str = "all"
 category: str = None
+colors: str = None
+order: str = "latest"
 """
 Categoris
 Accepted values: backgrounds, fashion, nature, science, education,
                  feelings, health, people, religion, places, animals,
                  industry, computer, food, sports, transportation, travel, buildings, business, music
-"""
-colors: str = None
-"""
+
 Colors
 Filter images by color properties. A comma separated list of values may be used to select multiple properties.
 Accepted values: "grayscale", "transparent", "red", "orange", "yellow", "green", "turquoise", "blue", "lilac", "pink", "white", "gray", "black", "brown"
 """
-order: str = "latest"
-
 
 params = {
     "q": q,

@@ -1,9 +1,38 @@
 # use_pixabay_api
+
 Pixabay API의 이미지 데이터를 가져오고, 이미지를 다운로드 하는 어플리케이션
-## 환경설정
+
+## 1. 환경설정
+
+### 1.1 설치 파일
 - python 버전 3.8.9
-- 필요 라이브러리는 requirements.txt
-- mysql은 8버전 이상
+- mysql은 버전 8.0.36
+
+### 1.2 설치 라이브러리
+requirements.txt 파일로 설치 가능
+```
+annotated-types==0.6.0
+certifi==2024.2.2
+cffi==1.16.0
+charset-normalizer==3.3.2
+colorama==0.4.6
+cryptography==42.0.2
+greenlet==3.0.3
+idna==3.6
+pycparser==2.21
+pydantic==2.6.1
+pydantic-core==2.16.2
+PyMySQL==1.1.0
+python-dotenv==1.0.1
+requests==2.31.0
+SQLAlchemy==2.0.27
+sqlmodel==0.0.16
+tqdm==4.66.2
+typing-extensions==4.9.0
+urllib3==2.2.1
+```
+
+### 1.3 .env파일 및 API_KEY
 - pixabay api key 필요 [pixabay_api_docs](https://pixabay.com/api/docs/)
 - 환경변수는 프로젝트 디렉터리에 **.env** 파일 생성
 - .env파일 예시
@@ -13,11 +42,40 @@ DATABASE_URL="mysql+pymysql://{user}:{password}@127.0.0.1:3306/{db_name}"
 END_POINT="https://pixabay.com/api/"
 ```
 
-## 실행파일 설명
-- **get_image_data.py** : 실행 후 "keyword"를 입력받음 -> 해당 keyword 관련 이미지 데이터를 최대 1000개 Mysql DB에 저장.
-- **download_images.py** : 실행 후 DB에 저장된 "keyword" 입력(카테고리 입력은 선택) -> images 디렉터리 안에 keyword로 생성된 폴더 안에 이미지 저장
+## 2. 실행파일 설명
 
-## `1. request GET 쿼리`
+### 2.1 get_image_data.py
+- 실행 후 "keyword"를 입력 -> 해당 keyword와 관련된 이미지 데이터를 MySQL DB에 저장
+
+```
+# keyword 입력 예시(나무, 나무+땅, 나무+물+돌)
+
+$ python get_image_data.py
+검색할 keyword 입력: {입력}
+```
+
+- 플로우 차트
+
+![alt text](get_image_data-1.png)
+
+### 2.2 download_images.py
+- DB에 저장된 imageURL을 읽어서 해당 url 이미지를 다운받음. keyword 입력 필요(DB에 저장된 데이터 중에 해당 keyword를 가진 rows의 imageURL을 불러옴, 태그 입력은 선택)
+
+```
+$ python download_images.py
+저장된 keyword 입력: {입력}
+태그도 입력 하시겠습니까?(y or n):
+```
+
+- 플로우 차트
+
+![alt text](download_images.png)
+
+## 3. responsedata 테이블 설명
+
+![alt text](responsedata.png)
+
+## 4. request GET 쿼리
 <br>
 endpoint = "https://pixabay.com/api/"
 
@@ -167,7 +225,7 @@ Indent JSON output. This option should not be used in production.
 
 <br>
 
-## 2. `response 예제`
+## 5. response 예제
 <br>
 <p>
 Retrieving photos of "yellow flowers". The search term <b class="inline">q</b> needs to be URL encoded:
@@ -210,4 +268,3 @@ Replace with '_960' to get the image in a maximum dimension of 960 x 720 px.
 <tr><td>imageURL</td><td>URL to the original image (imageWidth x imageHeight).</td></tr>
 <tr><td>vectorURL</td><td>URL to a vector resource if available, else omitted.</td></tr>
 </tbody></table>
-
